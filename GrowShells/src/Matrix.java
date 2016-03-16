@@ -168,6 +168,13 @@ public class Matrix
 	        }
 	    	return reponse;
 	    }
+	    
+	    public void set(Matrix d)
+	    {
+	    	for (int i = 0; i < M; i++)
+	            for (int j = 0; j < N; j++)
+	                this.data[i][j] = d.data[i][j];
+	    }
 
 
 	    //-------------------------------------------------------------------
@@ -190,7 +197,7 @@ public class Matrix
 	    }
 
 	    // copy constructor
-	    private Matrix(Matrix A) { this(A.data); }
+	    public Matrix(Matrix A) { this(A.data); }
 
 	    // create and return a random M-by-N matrix with values between 0 and 1
 	    public static Matrix random(int M, int N) {
