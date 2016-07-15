@@ -217,6 +217,7 @@ public class Creature
 		htoo.show("Hidden to Outputs");
 		fito.show("Threshold Hidden");
 		fhto.show("Threshold Output");
+		System.out.println("\n\n");
 		
 	}
 	

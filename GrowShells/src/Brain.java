@@ -35,7 +35,7 @@ public class Brain
 		{
 			states.get(i).set(states.get(i-1).times(weigths.get(i-1)));
 			states.get(i).timesTanH();
-			//Pour la paralysie neuronale, enlever la moyenne des 5 derniers -> passe haut
+			//Pour la paralysie neuronale, enlever la moyenne des n derniers -> passe haut
 		}
 		
 		//states.get(1).set(states.get(0).times(weigths.get(0)));

@@ -259,7 +259,7 @@ public class BassinGenetique extends JPanel
 			truc.live(frigo);
 			if(i==0)
 			{
-				//truc.showBrain();
+				truc.showBrain();
 			}
 			if(truc.isAlive())
 			{
