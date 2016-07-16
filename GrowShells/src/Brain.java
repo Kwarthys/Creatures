@@ -3,8 +3,8 @@ import java.util.ArrayList;
 public class Brain
 {
 	
-	private ArrayList<Matrix> weigths; 	//passage
-	private ArrayList<Matrix> states; 	//Etats
+	private ArrayList<Matrix> weigths = new ArrayList<Matrix>(); 	//passage
+	private ArrayList<Matrix> states = new ArrayList<Matrix>(); 	//Etats
 	
 	//private int nbHiddens;
 	
@@ -12,17 +12,17 @@ public class Brain
 	public Brain(int inputs, int outputs, int nHidden, int hiddenSize)
 	{
 		//nbHiddens = nHidden;
-		weigths.add(new Matrix(inputs, hiddenSize));
+		weigths.add(Matrix.random(inputs, hiddenSize));
 		states.add(new Matrix(1,inputs));
 		
 		if(nHidden >= 1){states.add(new Matrix(1,hiddenSize));}
 		
 		for(int i = 0; i<nHidden-1;i++)
 		{
-			weigths.add(new Matrix(hiddenSize,hiddenSize));
+			weigths.add(Matrix.random(hiddenSize,hiddenSize));
 			states.add(new Matrix(1,hiddenSize));
 		}
-		weigths.add(new Matrix(nHidden, outputs));
+		weigths.add(Matrix.random(hiddenSize, outputs));
 		states.add(new Matrix(1,outputs));
 		
 		
@@ -42,6 +42,22 @@ public class Brain
 		//states.get(2).set(states.get(1).times(weigths.get(1)));
 		
 		return states.get(states.size()-1);
+	}
+	
+	public void show()
+	{
+		System.out.println("Weigths :");
+		for(Matrix m : weigths)
+		{
+			m.show();
+		}
+		System.out.println("\nStates :");
+		
+		for(Matrix m : states)
+		{
+			m.show();
+		}
+		System.out.println("\n\n");
 	}
 	
 }
