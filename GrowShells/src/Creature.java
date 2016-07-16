@@ -14,6 +14,8 @@ public class Creature
 	private Matrix htoo = new Matrix(4,3);
 	private double x,y,angle, oeilG, oeilD;
 	
+	private Brain brain;
+	
 	private int[] target;
 	
 	private int faim;
@@ -46,6 +48,7 @@ public class Creature
 	public Creature(BassinGenetique lebassin)
 	{ 
 		bassin = lebassin;
+		brain = new Brain(3,3,1,4);
 		itoh = Matrix.random(3, 4).times(2).minus(1);
 		//itoh.show("inputs to hidden");
 		htoo = Matrix.random(4, 3).times(2).minus(1);
@@ -125,6 +128,7 @@ public class Creature
 	public Creature fusion(Creature mere)
 	{
 		Creature child = new Creature(this.bassin);
+		child.brain = Brain.fusion(this.brain, mere.brain);
 		child.fhto = this.fhto.fusion(mere.fhto);
 		child.itoh = this.itoh.fusion(mere.itoh);
 		child.htoo = this.htoo.fusion(mere.htoo);

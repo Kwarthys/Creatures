@@ -8,6 +8,11 @@ public class Brain
 	
 	//private int nbHiddens;
 	
+	public Brain(Brain copy)
+	{
+		weigths = new ArrayList<Matrix>(copy.weigths);
+		states = new ArrayList<Matrix>(copy.states);
+	}
 	
 	public Brain(int inputs, int outputs, int nHidden, int hiddenSize)
 	{
@@ -42,6 +47,19 @@ public class Brain
 		//states.get(2).set(states.get(1).times(weigths.get(1)));
 		
 		return states.get(states.size()-1);
+	}
+	
+	static public Brain fusion(Brain pap, Brain mam)
+	{
+		Brain child = new Brain(pap);
+		if(pap.weigths.size() != mam.weigths.size())return null;
+		for(int i = 0; i < pap.weigths.size() ; i++)
+		{
+			Matrix toCreate = child.weigths.get(i);
+			toCreate = child.weigths.get(i).fusion(child.weigths.get(i));
+		}
+		
+		return child;
 	}
 	
 	public void show()
