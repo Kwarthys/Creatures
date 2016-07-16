@@ -8,10 +8,6 @@ import java.util.Scanner;
 
 public class Creature
 {
-	private Matrix fhto = new Matrix(1,3);
-	private Matrix itoh = new Matrix(3,4);
-	private Matrix fito = new Matrix(1,4);
-	private Matrix htoo = new Matrix(4,3);
 	private double x,y,angle, oeilG, oeilD;
 	
 	private Brain brain;
@@ -28,14 +24,19 @@ public class Creature
 	public Color patteD;
 	public Color patteG;
 	public Color queue;
+
+	private int xOeilD = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI + Math.PI/4)));
+	private int yOeilD = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI + Math.PI/4)));
+	private int xOeilG = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
+	private int yOeilG = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
 	
 	//private int penalite = 0;
 	
-	private Matrix outputs = null, inputs = null, mid = null/*, oldOutputs = null*/;
+	private Matrix outputs = null, inputs = null;
 	
 	//private boolean premierTour = true;
 	
-	public static int faimMax = 2000;
+	public static int faimMax = 4000;
 	
 	public Creature(double leX, double leY,BassinGenetique lebassin)
 	{
@@ -48,14 +49,8 @@ public class Creature
 	public Creature(BassinGenetique lebassin)
 	{ 
 		bassin = lebassin;
-		brain = new Brain(3,3,1,4);
-		itoh = Matrix.random(3, 4).times(2).minus(1);
-		//itoh.show("inputs to hidden");
-		htoo = Matrix.random(4, 3).times(2).minus(1);
-		fito = Matrix.random(1, 4).times(2).minus(1);
-		//fito.show("Threshold Hidden");
-		fhto = Matrix.random(1, 3).times(2).minus(1);
-		angle = 360*Math.random(); faim = 600;setScore(0);
+		brain = new Brain(3,3,1,3);
+		angle = 360*Math.random(); faim = 1000;setScore(0);
 		x = (bassin.tailleX-200)*Math.random()+100;
 		y = (bassin.tailleY-200)*Math.random()+100;
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};
@@ -83,18 +78,17 @@ public class Creature
 		if(oeilD > bassin.tailleX){oeilD=bassin.tailleX;}
 		if(oeilG > bassin.tailleX){oeilG=bassin.tailleX;}
 		
-		double[][] in = {{((float)faim)/faimMax, (bassin.tailleX - oeilD )/bassin.tailleX, ((oeilG)-bassin.tailleX)/bassin.tailleX}};
+		double[][] in = {{((float)faim)/faimMax, (-oeilD/bassin.tailleX)+1, (-oeilG/bassin.tailleX)+1}};
 		//System.out.println();
 		inputs = new Matrix(in);
-		//inputs.show("inputs");
-		mid = inputs.times(this.itoh).masque(this.fito).timesTanH();
-		//mid.show("mid");
-		outputs = mid.times(this.htoo).masque(this.fhto).timesTanH();
+		
+		outputs = brain.compute(inputs);
+
 		faim++;
 		if( norme(nourriture.get(indexRecord)) < 15)
 		{
 			//System.out.println("Avant manger : " + faim);
-			manger(300);
+			manger();
 			//System.out.println("Après manger : " + faim);
 			bassin.eaten(indexRecord);
 		}
@@ -121,6 +115,12 @@ public class Creature
 		}
 		else
 			patteG = Color.GRAY;
+
+
+		xOeilD = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI + Math.PI/4)));
+		yOeilD = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI + Math.PI/4)));
+		xOeilG = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
+		yOeilG = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
 		
 		testMort();
 	}
@@ -129,10 +129,6 @@ public class Creature
 	{
 		Creature child = new Creature(this.bassin);
 		child.brain = Brain.fusion(this.brain, mere.brain);
-		child.fhto = this.fhto.fusion(mere.fhto);
-		child.itoh = this.itoh.fusion(mere.itoh);
-		child.htoo = this.htoo.fusion(mere.htoo);
-		child.fito = this.fito.fusion(mere.fito);
 		return child;
 	}
 		
@@ -155,15 +151,16 @@ public class Creature
 			delScore(1);
 	}
 	
-	private void manger(int qtt)
+	private void manger()
 	{
-		faim -= qtt;
-		addScore(30);
+		faim -= 800;
+		addScore(200);
 		testMort();
 	}
 	
 	private void forward()
 	{
+		faim++;addScore(1);
 		//System.out.println("gogogo");
 		x -= 2*Math.sin(Math.toRadians(angle));
 		y -= 2*Math.cos(Math.toRadians(angle));
@@ -180,7 +177,8 @@ public class Creature
 	
 	private void turnLeft()
 	{
-		angle += 2; controlAngle();
+		faim++;addScore(1);
+		angle += 6; controlAngle();
 		//System.out.println("turnleft");
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};
 		coordsQueue.add(0,tmp);
@@ -189,7 +187,8 @@ public class Creature
 	
 	private void turnRight()
 	{
-		angle -= 2; controlAngle();
+		faim++;addScore(1);
+		angle -= 6; controlAngle();
 		//System.out.println("turnright");
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};
 		coordsQueue.add(0,tmp);
@@ -202,34 +201,21 @@ public class Creature
 	}
 	
 	public double norme(int[] leX, int oeil) //oeil = -1 pour Gauche et +1 pour Droite
-	{
-
-		int xOeilD = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI + Math.PI/4)));
-		int yOeilD = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI + Math.PI/4)));
-		int xOeilG = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
-		int yOeilG = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
-		
+	{		
 		if(oeil == -1)
-			return Math.sqrt(Math.pow(leX[0] - xOeilG,2) + Math.pow(leX[1] - yOeilG,2));
+			return BassinGenetique.getDistance(leX[0], leX[1], xOeilG, yOeilG);
 		else
-			return Math.sqrt(Math.pow(leX[0] - xOeilD,2) + Math.pow(leX[1] - yOeilD,2));
+			return BassinGenetique.getDistance(leX[0],leX[1], xOeilD,  yOeilD);
 	}
 	
 	public void showBrain()
 	{
-		itoh.show("inputs to hidden");
-		htoo.show("Hidden to Outputs");
-		fito.show("Threshold Hidden");
-		fhto.show("Threshold Output");
-		System.out.println("\n\n");
-		
+		brain.show();		
 	}
 	
 	public void show()
 	{
-		inputs.show("inputs");
-		mid.show("mid");
-		outputs.show("Outputs");
+		showBrain();
 		System.out.println( " Située en : " + x + "|" + y + " Faim : " + faim + ".\n Valeurs yeux : " + oeilG + ".." + oeilD);
 		if(isAlive)
 			System.out.println("En vie\n");
@@ -267,17 +253,18 @@ public class Creature
 		this.score -= moins;
 	}
 	
-	public static void writeFile(Creature[] zoo, int size)
+	public static void writeFile(Creature[] zoo)
 	{
 		File f = new File ("logEcriture.txt");
+		int nbOfBrains = zoo.length;
 		 
 		try
 		{
 		    FileWriter fw = new FileWriter (f);
-		    fw.write(size + " ");
-		    for(int i = 0; i < size; i++)
+		    fw.write(nbOfBrains + " " + zoo[0].brain.getType());
+		    for(int i = 0; i < nbOfBrains; i++)
 		    {
-			    fw.write (zoo[i].itoh.toString()+zoo[i].htoo.toString()+zoo[i].fito.toString()+zoo[i].fhto.toString());	
+			    fw.write (zoo[i].brain.toString());	
 		    }	 
 		    fw.close();
 		}
@@ -297,6 +284,7 @@ public class Creature
 		    double c=0;
 			c = fr.nextDouble();
 			int im=0,jm=0, taille =(int) c; //compteur 0 1 2 3 <=> itoh htoo fito fhto
+			int typeOfBrain = fr.nextInt();
 			zoo = new Creature[(int) c];
     		for(int o =0; o<taille;o++)
     		{
@@ -308,10 +296,12 @@ public class Creature
 	    		System.out.println(" zoo : " + zoo);
 	    		for(int o =0; o<taille;o++)
 	    		{
-	    			for(int quatre = 0; quatre < 4; quatre++)
+	    			ArrayList<Matrix> readBrain = new ArrayList<Matrix>();
+	    			for(int quatre = 0; quatre < typeOfBrain; quatre++)
 	    			{
 				        c = fr.nextDouble(); im = (int)c; System.out.println(" im : " + im);
 				        c = fr.nextDouble(); jm = (int)c; System.out.println(" jm : " + jm);
+				        Matrix tmp = new Matrix(jm,im);
 				        for(int j = 0; j < jm; j++)
 				        {
 				        	//System.out.println(" j : " + j);
@@ -319,25 +309,12 @@ public class Creature
 				        	{
 					        	//System.out.println(" i : " + i);
 				        		c = Double.parseDouble(fr.next()); System.out.println(" c : " + c);
-				        		if(quatre == 0)
-				        		{
-				        			zoo[o].itoh.set(i,j,c);
-				        		}
-				        		else if(quatre == 1)
-				        		{
-				        			zoo[o].htoo.set(i,j,c);
-				        		}
-				        		else if(quatre == 2)
-				        		{
-				        			zoo[o].fito.set(i,j,c);
-				        		}
-				        		else if(quatre == 3)
-				        		{
-				        			zoo[o].fhto.set(i,j,c);
-				        		}
+				        		tmp.set(i,j,c);
 				        	}
 					    }
+				        readBrain.add(new Matrix(tmp));
 	    			}
+	    			zoo[o].brain = new Brain(readBrain);
 	    		}
 	    	}
 	    	catch (NoSuchElementException exception)

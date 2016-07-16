@@ -57,6 +57,12 @@ public class Matrix
 	    
 	//----------------MES-TRUCS------------------------------------------
 	    
+	public int[] getSize()
+	{
+		int[] tmp = {M,N};
+		return tmp;
+	}
+	
 	static public void setDiv(double d)
 	{
 		diversite = d;
@@ -90,13 +96,15 @@ public class Matrix
 	            	
 	            	A.data[i][j] += rand;
 	            	System.out.println("Mutation of " + rand + " with Div = " + diversite);
+	            	//A.show();
             	}
             }
-                
-        return A.saturation(-5,5);
+         
+        A.saturation(-4, 4);
+        return A;
     }
 	    
-    public Matrix saturation(int min, int max)
+    public void saturation(int min, int max)
     {
     	Matrix A = this;
         for (int i = 0; i < M; i++)
@@ -105,7 +113,6 @@ public class Matrix
                 if(A.data[i][j] < min)A.data[i][j]=min;
                 else if(A.data[i][j] > max)A.data[i][j]=max;
             }
-        return A;
     }
 
 	

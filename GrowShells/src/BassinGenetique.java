@@ -1,12 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class BassinGenetique extends JPanel
+public class BassinGenetique extends JPanel implements MouseListener
 {
 
 	private ArrayList<Creature> zoo = new ArrayList<Creature>();
@@ -30,6 +32,7 @@ public class BassinGenetique extends JPanel
 	public BassinGenetique(int rang)
 	{
 		super();
+		addMouseListener(this);
 		this.setSize(tailleX+100, tailleY+100); 
 
 		tailleX = 1400;
@@ -258,11 +261,11 @@ public class BassinGenetique extends JPanel
 			Creature truc = zoo.get(i);
 			//System.out.print("Creature " + i);
 			truc.live(frigo);
-			/*
+			
 			if(i==0)
 			{
-				truc.showBrain();
-			}*/
+				//truc.drawBrain(g);
+			}
 			if(truc.isAlive())
 			{
 				//truc.show();
@@ -392,7 +395,7 @@ public class BassinGenetique extends JPanel
 	static private double scaleEvols(int a)
 	{
 		if(a>500)a=500;
-		return (10.0*(a-501)*(a-501)/250000);
+		return (5.0*(a-501)*(a-501)/250000);
 		
 	}
 
@@ -405,6 +408,51 @@ public class BassinGenetique extends JPanel
 			tmp[o] = registre.get(o);
 		}
 
-		Creature.writeFile(tmp,registre.size());
+		Creature.writeFile(tmp);
+	}
+	
+	public static double getDistance(int x1, int y1, int x2, int y2)
+	{
+		return Math.sqrt(Math.pow(x1 - x2,2) + Math.pow(y1 - y2,2));
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("Click " + arg0.getX() + " " + arg0.getY());
+		boolean found = false;
+		for(int i = 0; i < zoo.size() && !found; i++)
+		{
+			//System.out.println("----> " + (int)zoo.get(i).getX() + " " + (int)zoo.get(i).getY() + " -> Distance : " + getDistance((int)zoo.get(i).getX(),arg0.getX(),(int)zoo.get(i).getY(),arg0.getY()));
+			if(getDistance((int)zoo.get(i).getX(),(int)zoo.get(i).getY(),arg0.getX(),arg0.getY()) <= 20)
+			{
+				found = true;
+				zoo.get(i).showBrain();
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
