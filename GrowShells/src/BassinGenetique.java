@@ -164,6 +164,7 @@ public class BassinGenetique extends JPanel
 		
 		
 		//Dessin des graphs
+		//Evolution overview graph
 		g.setColor(Color.WHITE);
 		g.fillRect(10, 10, 300, 110);
 		g.setColor(Color.black);
@@ -184,7 +185,7 @@ public class BassinGenetique extends JPanel
 		
 		g.drawString(String.valueOf(maxEvol),20 , 30);
 		
-		//graph2
+		//Current scores graph
 		g.setColor(Color.WHITE);
 		g.fillRect(10, 130, 330, 110);
 		g.setColor(Color.black);
@@ -257,10 +258,11 @@ public class BassinGenetique extends JPanel
 			Creature truc = zoo.get(i);
 			//System.out.print("Creature " + i);
 			truc.live(frigo);
+			/*
 			if(i==0)
 			{
 				truc.showBrain();
-			}
+			}*/
 			if(truc.isAlive())
 			{
 				//truc.show();
@@ -364,7 +366,20 @@ public class BassinGenetique extends JPanel
 			evols.add(0,evol);
 		}
 		
-		if(evol != 0 && registre.size() >= popstack){System.out.println("Evolution : " + evol + " après " + step + " stagnations"); step = 0;}
+		int totalEvols = 0;
+		for(int e : evols)
+		{
+			totalEvols += e;
+		}
+		if(totalEvols == 0)totalEvols = 1;		
+		//System.out.println(totalEvols + " -> " + scaleEvols(totalEvols));
+		Matrix.setDiv(scaleEvols(totalEvols));
+		
+		if(evol != 0 && registre.size() >= popstack)
+		{
+			//System.out.println("Evolution : " + evol + " après " + step + " stagnations");
+			step = 0;
+		}
 		else
 			step++;
 		
@@ -372,6 +387,13 @@ public class BassinGenetique extends JPanel
 
 		while(evols.size() >= 150)
 			evols.remove(evols.size()-1);
+	}
+	
+	static private double scaleEvols(int a)
+	{
+		if(a>500)a=500;
+		return (10.0*(a-501)*(a-501)/250000);
+		
 	}
 
 	public void save()

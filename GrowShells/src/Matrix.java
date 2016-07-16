@@ -50,307 +50,325 @@
 
 public class Matrix
 {
-	 private final int M;             // number of rows
-	    private final int N;             // number of columns
-	    private final double[][] data;   // M-by-N array
+	static private double diversite = 1;
+	private final int M;             // number of rows
+	private final int N;             // number of columns
+	private final double[][] data;   // M-by-N array
 	    
-	    //----------------MES-TRUCS------------------------------------------
+	//----------------MES-TRUCS------------------------------------------
 	    
-	    public Matrix fusion(Matrix mere)
-	    {
-	    	Matrix A = new Matrix(this);
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	            {
-	            	//A.data[i][j] *= multiple;
-	            	if(Math.random() <= 0.4)
-	            	{
-	            		A.data[i][j] = mere.data[i][j];
-	            	}
-	            	if((int)(1000*Math.random()) == 42)
-	            	{
-		            	double rand = Math.random()-0.5;
-		            	if(rand >= 0)
-		            	{
-		            		rand *= 8;
-		            		rand *= rand;
-		            	}
-		            		
-		            	else
-		            	{
-		            		rand *= 8;
-		            		rand *= - rand;
-		            	}
-		            	
-		            	A.data[i][j] += rand;
-		            	System.out.println("Mutation de " + rand);
-	            	}
-	            }
-	                
-	        return A;
-	    }
-
-		
-		public static double tanh(double x)
-		{
-			return (Math.exp(2*x) - 1 )/ (Math.exp(2*x) + 1);
-			//return (1 / (Math.exp(-2*x) + 1));
-		}
-		
-		
-	    public Matrix masque(Matrix leMasque)
-	    {
-	    	Matrix A = this;
-	    	if (leMasque.M != A.M || leMasque.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
-	    	for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	            {
-	            	if(A.data[i][j] < leMasque.data[i][j])
-	            		A.data[i][j] = 0;	            	
-	            }
-	        return A;
-	    }
-	    
-	    public double get(int j, int i)
-	    {
-	    	if(j < M && i < N && j >= 0 && i >= 0)
-	    		return data[j][i];
-	    	else
-	    		System.out.println("Erreur de dimensions, demande de get d'index [" + j + "][" + i + "] dans [" + (M-1) + "][" + (N-1) + "]"); return 0; 
-	    }
-	    
-	    public void set(int i, int j, double value)
-	    {
-	    	if(j < M && i < N && j >= 0 && i >= 0)
-	    		data[j][i] = value;
-	    	//else
-	    		//System.out.println("Erreur de dimensions, demande de set d'index [" + j + "][" + i + "] dans [" + (M-1) + "][" + (N-1) + "]"); 
-	    }
-	    
-	    public Matrix times(int multiple)
-	    {
-	    	Matrix A = this;
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                A.data[i][j] *= multiple;
-	        return A;
-	    }
-	    
-	    public Matrix timesTanH()
-	    {
-	    	Matrix A = this;
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                A.data[i][j] = tanh(A.data[i][j]);
-	        return A;
-	    }
-	    
-	    public void show(String label)
-	    {
-	    	System.out.println(label + " :");
-	    	show();
-	    }
-	    public Matrix minus(double B) {
-	        Matrix C = new Matrix(M, N);
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                C.data[i][j] = this.data[i][j] - B;
-	        return C;
-	    }
-	    
-	    public String toString()
-	    {
-	    	String reponse = "";
-	    	reponse += N + " " + M + " ";
-	    	for (int i = 0; i < M; i++) {
-	            for (int j = 0; j < N; j++) 
-	                reponse += data[i][j] + " ";
-	        }
-	    	return reponse;
-	    }
-	    
-	    public void set(Matrix d)
-	    {
-	    	for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                this.data[i][j] = d.data[i][j];
-	    }
-
-
-	    //-------------------------------------------------------------------
-
-	    // create M-by-N matrix of 0's
-	    public Matrix(int M, int N) {
-	        this.M = M;
-	        this.N = N;
-	        data = new double[M][N];
-	    }
-
-	    // create matrix based on 2d array
-	    public Matrix(double[][] data) {
-	        M = data.length;
-	        N = data[0].length;
-	        this.data = new double[M][N];
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                    this.data[i][j] = data[i][j];
-	    }
-
-	    // copy constructor
-	    public Matrix(Matrix A) { this(A.data); }
-
-	    // create and return a random M-by-N matrix with values between 0 and 1
-	    public static Matrix random(int M, int N) {
-	        Matrix A = new Matrix(M, N);
-	        for (int i = 0; i < M; i++)
-	        {
-	            for (int j = 0; j < N; j++)
-	            {
+	static public void setDiv(double d)
+	{
+		diversite = d;
+	}
+	
+	public Matrix fusion(Matrix mere)
+    {
+    	Matrix A = new Matrix(this);
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+            {
+            	//A.data[i][j] *= multiple;
+            	if(Math.random() <= 0.4)
+            	{
+            		A.data[i][j] = mere.data[i][j];
+            	}
+            	if((int)(1000*Math.random()) == 42)
+            	{
 	            	double rand = Math.random()-0.5;
 	            	if(rand >= 0)
 	            	{
+	            		rand *= diversite;
 	            		rand *= rand;
 	            	}
 	            		
 	            	else
 	            	{
+	            		rand *= diversite;
 	            		rand *= - rand;
 	            	}
-	            	rand *= 6;
 	            	
-	            	A.data[i][j] = rand;
-	            }
-	        }
-	        return A;
-	    }
+	            	A.data[i][j] += rand;
+	            	System.out.println("Mutation of " + rand + " with Div = " + diversite);
+            	}
+            }
+                
+        return A.saturation(-5,5);
+    }
+	    
+    public Matrix saturation(int min, int max)
+    {
+    	Matrix A = this;
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+            {
+                if(A.data[i][j] < min)A.data[i][j]=min;
+                else if(A.data[i][j] > max)A.data[i][j]=max;
+            }
+        return A;
+    }
 
-	    // create and return the N-by-N identity matrix
-	    public static Matrix identity(int N) {
-	        Matrix I = new Matrix(N, N);
-	        for (int i = 0; i < N; i++)
-	            I.data[i][i] = 1;
-	        return I;
-	    }
+	
+	public static double tanh(double x)
+	{
+		return (Math.exp(2*x) - 1 )/ (Math.exp(2*x) + 1);
+		//return (1 / (Math.exp(-2*x) + 1));
+	}
+	
+	
+    public Matrix masque(Matrix leMasque)
+    {
+    	Matrix A = this;
+    	if (leMasque.M != A.M || leMasque.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
+    	for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+            {
+            	if(A.data[i][j] < leMasque.data[i][j])
+            		A.data[i][j] = 0;	            	
+            }
+        return A;
+    }
+    
+    public double get(int j, int i)
+    {
+    	if(j < M && i < N && j >= 0 && i >= 0)
+    		return data[j][i];
+    	else
+    		System.out.println("Erreur de dimensions, demande de get d'index [" + j + "][" + i + "] dans [" + (M-1) + "][" + (N-1) + "]"); return 0; 
+    }
+    
+    public void set(int i, int j, double value)
+    {
+    	if(j < M && i < N && j >= 0 && i >= 0)
+    		data[j][i] = value;
+    	//else
+    		//System.out.println("Erreur de dimensions, demande de set d'index [" + j + "][" + i + "] dans [" + (M-1) + "][" + (N-1) + "]"); 
+    }
+    
+    public Matrix times(int multiple)
+    {
+    	Matrix A = this;
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                A.data[i][j] *= multiple;
+        return A;
+    }
+    
+    public Matrix timesTanH()
+    {
+    	Matrix A = this;
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                A.data[i][j] = tanh(A.data[i][j]);
+        return A;
+    }
+    
+    public void show(String label)
+    {
+    	System.out.println(label + " :");
+    	show();
+    }
+    public Matrix minus(double B) {
+        Matrix C = new Matrix(M, N);
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                C.data[i][j] = this.data[i][j] - B;
+        return C;
+    }
+    
+    public String toString()
+    {
+    	String reponse = "";
+    	reponse += N + " " + M + " ";
+    	for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) 
+                reponse += data[i][j] + " ";
+        }
+    	return reponse;
+    }
+    
+    public void set(Matrix d)
+    {
+    	for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                this.data[i][j] = d.data[i][j];
+    }
 
-	    // swap rows i and j
-	    public void swap(int i, int j) {
-	        double[] temp = data[i];
-	        data[i] = data[j];
-	        data[j] = temp;
-	    }
 
-	    // create and return the transpose of the invoking matrix
-	    public Matrix transpose() {
-	        Matrix A = new Matrix(N, M);
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                A.data[j][i] = this.data[i][j];
-	        return A;
-	    }
+    //-------------------------------------------------------------------
 
-	    // return C = A + B
-	    public Matrix plus(Matrix B) {
-	        Matrix A = this;
-	        if (B.M != A.M || B.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
-	        Matrix C = new Matrix(M, N);
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                C.data[i][j] = A.data[i][j] + B.data[i][j];
-	        return C;
-	    }
+    // create M-by-N matrix of 0's
+    public Matrix(int M, int N) {
+        this.M = M;
+        this.N = N;
+        data = new double[M][N];
+    }
+
+    // create matrix based on 2d array
+    public Matrix(double[][] data) {
+        M = data.length;
+        N = data[0].length;
+        this.data = new double[M][N];
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                    this.data[i][j] = data[i][j];
+    }
+
+    // copy constructor
+    public Matrix(Matrix A) { this(A.data); }
+
+    // create and return a random M-by-N matrix with values between 0 and 1
+    public static Matrix random(int M, int N) {
+        Matrix A = new Matrix(M, N);
+        for (int i = 0; i < M; i++)
+        {
+            for (int j = 0; j < N; j++)
+            {
+            	double rand = Math.random()-0.5;
+            	if(rand >= 0)
+            	{
+            		rand *= rand;
+            	}
+            		
+            	else
+            	{
+            		rand *= - rand;
+            	}
+            	rand *= 6;
+            	
+            	A.data[i][j] = rand;
+            }
+        }
+        return A;
+    }
+
+    // create and return the N-by-N identity matrix
+    public static Matrix identity(int N) {
+        Matrix I = new Matrix(N, N);
+        for (int i = 0; i < N; i++)
+            I.data[i][i] = 1;
+        return I;
+    }
+
+    // swap rows i and j
+    public void swap(int i, int j) {
+        double[] temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
+    // create and return the transpose of the invoking matrix
+    public Matrix transpose() {
+        Matrix A = new Matrix(N, M);
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                A.data[j][i] = this.data[i][j];
+        return A;
+    }
+
+    // return C = A + B
+    public Matrix plus(Matrix B) {
+        Matrix A = this;
+        if (B.M != A.M || B.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
+        Matrix C = new Matrix(M, N);
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                C.data[i][j] = A.data[i][j] + B.data[i][j];
+        return C;
+    }
 
 
-	    // return C = A - B
-	    public Matrix minus(Matrix B) {
-	        Matrix A = this;
-	        if (B.M != A.M || B.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
-	        Matrix C = new Matrix(M, N);
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                C.data[i][j] = A.data[i][j] - B.data[i][j];
-	        return C;
-	    }
+    // return C = A - B
+    public Matrix minus(Matrix B) {
+        Matrix A = this;
+        if (B.M != A.M || B.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
+        Matrix C = new Matrix(M, N);
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                C.data[i][j] = A.data[i][j] - B.data[i][j];
+        return C;
+    }
 
-	    // does A = B exactly?
-	    public boolean eq(Matrix B) {
-	        Matrix A = this;
-	        if (B.M != A.M || B.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
-	        for (int i = 0; i < M; i++)
-	            for (int j = 0; j < N; j++)
-	                if (A.data[i][j] != B.data[i][j]) return false;
-	        return true;
-	    }
+    // does A = B exactly?
+    public boolean eq(Matrix B) {
+        Matrix A = this;
+        if (B.M != A.M || B.N != A.N) throw new RuntimeException("Illegal matrix dimensions.");
+        for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+                if (A.data[i][j] != B.data[i][j]) return false;
+        return true;
+    }
 
-	    // return C = A * B
-	    public Matrix times(Matrix B) {
-	        Matrix A = this;
-	        if (A.N != B.M) throw new RuntimeException("Illegal matrix dimensions.");
-	        Matrix C = new Matrix(A.M, B.N);
-	        for (int i = 0; i < C.M; i++)
-	            for (int j = 0; j < C.N; j++)
-	                for (int k = 0; k < A.N; k++)
-	                    C.data[i][j] += (A.data[i][k] * B.data[k][j]);
-	        return C;
-	    }
+    // return C = A * B
+    public Matrix times(Matrix B) {
+        Matrix A = this;
+        if (A.N != B.M) throw new RuntimeException("Illegal matrix dimensions.");
+        Matrix C = new Matrix(A.M, B.N);
+        for (int i = 0; i < C.M; i++)
+            for (int j = 0; j < C.N; j++)
+                for (int k = 0; k < A.N; k++)
+                    C.data[i][j] += (A.data[i][k] * B.data[k][j]);
+        return C;
+    }
 
 
-	    // return x = A^-1 b, assuming A is square and has full rank
-	    public Matrix solve(Matrix rhs) {
-	        if (M != N || rhs.M != N || rhs.N != 1)
-	            throw new RuntimeException("Illegal matrix dimensions.");
+    // return x = A^-1 b, assuming A is square and has full rank
+    public Matrix solve(Matrix rhs) {
+        if (M != N || rhs.M != N || rhs.N != 1)
+            throw new RuntimeException("Illegal matrix dimensions.");
 
-	        // create copies of the data
-	        Matrix A = new Matrix(this);
-	        Matrix b = new Matrix(rhs);
+        // create copies of the data
+        Matrix A = new Matrix(this);
+        Matrix b = new Matrix(rhs);
 
-	        // Gaussian elimination with partial pivoting
-	        for (int i = 0; i < N; i++) {
+        // Gaussian elimination with partial pivoting
+        for (int i = 0; i < N; i++) {
 
-	            // find pivot row and swap
-	            int max = i;
-	            for (int j = i + 1; j < N; j++)
-	                if (Math.abs(A.data[j][i]) > Math.abs(A.data[max][i]))
-	                    max = j;
-	            A.swap(i, max);
-	            b.swap(i, max);
+            // find pivot row and swap
+            int max = i;
+            for (int j = i + 1; j < N; j++)
+                if (Math.abs(A.data[j][i]) > Math.abs(A.data[max][i]))
+                    max = j;
+            A.swap(i, max);
+            b.swap(i, max);
 
-	            // singular
-	            if (A.data[i][i] == 0.0) throw new RuntimeException("Matrix is singular.");
+            // singular
+            if (A.data[i][i] == 0.0) throw new RuntimeException("Matrix is singular.");
 
-	            // pivot within b
-	            for (int j = i + 1; j < N; j++)
-	                b.data[j][0] -= b.data[i][0] * A.data[j][i] / A.data[i][i];
+            // pivot within b
+            for (int j = i + 1; j < N; j++)
+                b.data[j][0] -= b.data[i][0] * A.data[j][i] / A.data[i][i];
 
-	            // pivot within A
-	            for (int j = i + 1; j < N; j++) {
-	                double m = A.data[j][i] / A.data[i][i];
-	                for (int k = i+1; k < N; k++) {
-	                    A.data[j][k] -= A.data[i][k] * m;
-	                }
-	                A.data[j][i] = 0.0;
-	            }
-	        }
+            // pivot within A
+            for (int j = i + 1; j < N; j++) {
+                double m = A.data[j][i] / A.data[i][i];
+                for (int k = i+1; k < N; k++) {
+                    A.data[j][k] -= A.data[i][k] * m;
+                }
+                A.data[j][i] = 0.0;
+            }
+        }
 
-	        // back substitution
-	        Matrix x = new Matrix(N, 1);
-	        for (int j = N - 1; j >= 0; j--) {
-	            double t = 0.0;
-	            for (int k = j + 1; k < N; k++)
-	                t += A.data[j][k] * x.data[k][0];
-	            x.data[j][0] = (b.data[j][0] - t) / A.data[j][j];
-	        }
-	        return x;
-	   
-	    }
+        // back substitution
+        Matrix x = new Matrix(N, 1);
+        for (int j = N - 1; j >= 0; j--) {
+            double t = 0.0;
+            for (int k = j + 1; k < N; k++)
+                t += A.data[j][k] * x.data[k][0];
+            x.data[j][0] = (b.data[j][0] - t) / A.data[j][j];
+        }
+        return x;
+   
+    }
 
-	    // print matrix to standard output
-	    public void show() {
-	        for (int i = 0; i < M; i++) {
-	            for (int j = 0; j < N; j++) 
-	                System.out.printf("%9.4f ", data[i][j]);
-	            System.out.println();
-	        }
-
+    // print matrix to standard output
+    public void show() {
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) 
+                System.out.printf("%9.4f ", data[i][j]);
             System.out.println();
-	    }
+        }
+
+        System.out.println();
+    }
 }
