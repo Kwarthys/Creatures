@@ -26,6 +26,7 @@ public class BassinGenetique extends JPanel implements MouseListener
 	private int qttBouffe;
 	
 	private Integer oldMoyenne;
+	@SuppressWarnings("unused")
 	private int step = 0;
 	private ArrayList<Integer> evols = new ArrayList<Integer>();
 	

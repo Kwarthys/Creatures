@@ -66,12 +66,9 @@ public class Brain
 		{
 			states.get(i).set(states.get(i-1).times(weigths.get(i-1)));
 			states.get(i).timesTanH();
-			//Pour la paralysie neuronale, enlever la moyenne des n derniers -> passe haut
+			states.get(i).masque(0.01);  //0.01 Treshold for neurons			
 		}
-		
-		//states.get(1).set(states.get(0).times(weigths.get(0)));
-		//states.get(2).set(states.get(1).times(weigths.get(1)));
-		
+			
 		return states.get(states.size()-1);
 	}
 	

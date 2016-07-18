@@ -15,7 +15,6 @@ public class ShellLauncher {
 //		Matrix B = inputs.times(weigths);
 //		B.show(); System.out.println(B.get(0, 3));
 		
-		
 		@SuppressWarnings("unused")
 		ShellFenetre fenetre = new ShellFenetre();
 		

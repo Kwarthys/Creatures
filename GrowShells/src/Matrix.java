@@ -135,6 +135,19 @@ public class Matrix
             }
         return A;
     }
+	
+	
+    public void masque(double absMasque)
+    {
+    	for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+            {
+            	if(Math.abs(this.data[i][j]) < absMasque)
+            	{
+            		this.data[i][j] = 0;
+            	}
+            }
+    }
     
     public double get(int j, int i)
     {
