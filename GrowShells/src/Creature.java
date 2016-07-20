@@ -100,9 +100,12 @@ public class Creature
 		else
 			queue = Color.GRAY;
 		
+		boolean turning = false;
+		
 		if(outputs.get(0, 1) > 0)
 		{
 			turnRight();
+			turning = true;
 			patteD = Color.RED;
 		}
 		else
@@ -112,6 +115,8 @@ public class Creature
 		{
 			turnLeft();
 			patteG = Color.RED;
+			if(turning)
+				faim += 1;
 		}
 		else
 			patteG = Color.GRAY;
