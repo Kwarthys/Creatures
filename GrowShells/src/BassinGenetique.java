@@ -371,7 +371,7 @@ public class BassinGenetique extends JPanel implements MouseListener
 			if(e==0)zeroes++;
 		}
 		if(evols.size()!=0 && evols.size()-zeroes!=0)totalEvols/=(evols.size()-zeroes);
-		System.out.println(totalEvols + " -> " + scaleEvols(totalEvols));
+		//System.out.println(totalEvols + " -> " + scaleEvols(totalEvols));
 		Matrix.setDiv(scaleEvols(totalEvols));
 		
 		if(evol != 0 && registre.size() >= popstack)
