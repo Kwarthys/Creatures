@@ -396,7 +396,7 @@ public class BassinGenetique extends JPanel implements MouseListener
 	static private double scaleEvols(int a)
 	{
 		if(a>500)a=500;
-		return (5.0*(a-501)*(a-501)/250000);
+		return (8.0*(a-501)*(a-501)/250000);
 		
 	}
 
