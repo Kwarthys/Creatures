@@ -36,7 +36,7 @@ public class Creature
 	
 	//private boolean premierTour = true;
 	
-	public static int faimMax = 4000;
+	public static int faimMax = 3500;
 	
 	public Creature(double leX, double leY,BassinGenetique lebassin)
 	{

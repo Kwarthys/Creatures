@@ -356,14 +356,7 @@ public class BassinGenetique extends JPanel implements MouseListener
 		}
 		registre.clear();
 		registre = tmp;
-		
-		//registre.show();
-		//System.out.println("Naissances "+ ++generation +"\n"+ registre.size() + " : " + registre.get(0).getScore() + " : " + registre.get(1).getScore()+ " : " + registre.get(2).getScore() + " : " + registre.get(registre.size()-2).getScore() + " : " + registre.get(registre.size()-1).getScore() +" / " + registre.moyenne());
-		/*System.out.print(" -> " + registre.size() + " : " );//+ registre.get(0).getScore() + " : " + registre.get(1).getScore()+ " : " + registre.get(2).getScore() + " : " + registre.get(registre.size()-2).getScore() + " : " + registre.get(registre.size()-1).getScore() +" // " + (registre.moyenne()-oldMoyenne));
-		for(Creature index : registre)
-		{
-			System.out.print(index.getScore() + " || ");			
-		}*/
+
 		int evol = (int) (registre.moyenne()-oldMoyenne);
 		if(registre.size()>= popstack)
 		{
@@ -371,12 +364,14 @@ public class BassinGenetique extends JPanel implements MouseListener
 		}
 		
 		int totalEvols = 0;
+		int zeroes = 0;
 		for(int e : evols)
 		{
 			totalEvols += e;
+			if(e==0)zeroes++;
 		}
-		if(totalEvols == 0)totalEvols = 1;		
-		//System.out.println(totalEvols + " -> " + scaleEvols(totalEvols));
+		if(evols.size()!=0 && evols.size()-zeroes!=0)totalEvols/=(evols.size()-zeroes);
+		System.out.println(totalEvols + " -> " + scaleEvols(totalEvols));
 		Matrix.setDiv(scaleEvols(totalEvols));
 		
 		if(evol != 0 && registre.size() >= popstack)
@@ -388,6 +383,8 @@ public class BassinGenetique extends JPanel implements MouseListener
 			step++;
 		
 		oldMoyenne = (int) registre.moyenne();
+		
+		//System.out.println(oldMoyenne);
 
 		while(evols.size() >= 150)
 			evols.remove(evols.size()-1);
@@ -395,9 +392,12 @@ public class BassinGenetique extends JPanel implements MouseListener
 	
 	static private double scaleEvols(int a)
 	{
-		if(a>500)a=500;
-		return (8.0*(a-501)*(a-501)/250000);
-		
+		return 10*sigmoidP(a-5, 0.8);		
+	}
+	
+	static public double sigmoidP(double a, double lambda)
+	{
+		return 1-(1/(1+Math.exp(-lambda*a)));
 	}
 
 	public void save()
