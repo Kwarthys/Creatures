@@ -40,7 +40,7 @@ public class BassinGenetique extends JPanel implements MouseListener
 		tailleY = 800;
 		population = tailleX * tailleY / 20000;
 		popstack = population*4;
-		qttBouffe = population/3;
+		qttBouffe = population/2;
 		
 		manageFrigo();
 		
@@ -365,12 +365,16 @@ public class BassinGenetique extends JPanel implements MouseListener
 			evols.add(0,evol);
 		}
 		
-		int totalEvols = 0;
-		int zeroes = 0;
+		double totalEvols = 0;
+		double zeroes = 0;
 		for(int e : evols)
 		{
 			totalEvols += e;
-			if(e==0)zeroes++;
+			if(e==0)
+			{
+				zeroes+=0.05;
+				totalEvols++;
+			}
 		}
 		if(evols.size()!=0 && evols.size()-zeroes!=0)totalEvols/=(evols.size()-zeroes);
 		//System.out.println(totalEvols + " -> " + scaleEvols(totalEvols));
@@ -392,7 +396,7 @@ public class BassinGenetique extends JPanel implements MouseListener
 			evols.remove(evols.size()-1);
 	}
 	
-	static private double scaleEvols(int a)
+	static private double scaleEvols(double a)
 	{
 		return 10*sigmoidP(a-5, 0.8);		
 	}

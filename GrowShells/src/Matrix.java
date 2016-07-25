@@ -95,8 +95,7 @@ public class Matrix
 	            	}
 	            	
 	            	A.data[i][j] += rand;
-	            	//System.out.println("Mutation of " + rand + " with Div = " + diversite);
-	            	//A.show();
+	            	System.out.println("Mutation of " + rand + " with Div = " + diversite);
             	}
             }
          
@@ -239,12 +238,12 @@ public class Matrix
 
     // create and return a random M-by-N matrix with values between 0 and 1
     public static Matrix random(int M, int N) {
-        Matrix A = new Matrix(M, N);
+        Matrix A = new Matrix(M, N);        
         for (int i = 0; i < M; i++)
         {
             for (int j = 0; j < N; j++)
             {
-            	double rand = Math.random()-0.5;
+            	double rand = 1.61*Math.random()-0.82;
             	if(rand >= 0)
             	{
             		rand *= rand;
@@ -259,6 +258,7 @@ public class Matrix
             	A.data[i][j] = rand;
             }
         }
+        A.saturation(-4, 4);
         return A;
     }
 
