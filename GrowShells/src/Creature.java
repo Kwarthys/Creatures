@@ -30,11 +30,7 @@ public class Creature
 	private int xOeilG = (int)getX() + (int)(30*(-Math.sin(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
 	private int yOeilG = (int)getY() + (int)(30*(Math.cos(-Math.toRadians(getAngle()) + Math.PI - Math.PI/4)));
 	
-	//private int penalite = 0;
-	
 	private Matrix outputs = null, inputs = null;
-	
-	//private boolean premierTour = true;
 	
 	public static int faimMax = 3500;
 	
@@ -59,7 +55,7 @@ public class Creature
 	
 	public void live(ArrayList<int[]> nourriture)
 	{
-		//recherche de nourriture la plus proche
+		//Searching for nearest food cluster.
 		double recordNorme = norme(nourriture.get(0));
 		int indexRecord = 0;
 		for(int i = 0; i < nourriture.size(); i++)
