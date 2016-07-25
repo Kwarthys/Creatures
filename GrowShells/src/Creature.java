@@ -49,7 +49,7 @@ public class Creature
 	public Creature(BassinGenetique lebassin)
 	{ 
 		bassin = lebassin;
-		brain = new Brain(3,3,1,3);
+		brain = new Brain(3,3,2,5);
 		angle = 360*Math.random(); faim = 1000;setScore(0);
 		x = (bassin.tailleX-200)*Math.random()+100;
 		y = (bassin.tailleY-200)*Math.random()+100;

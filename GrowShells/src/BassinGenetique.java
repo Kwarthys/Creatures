@@ -223,6 +223,13 @@ public class BassinGenetique extends JPanel implements MouseListener
 		int espace = 1;
 		int largeur = (320 - (zoo.size()*espace)) / zoo.size();
 		int origineG2Y = 130+110-10;
+
+		//Tracé des droites témoins
+		g.setColor(Color.red);
+		g.drawLine(10, origineG2Y - (maxMort*90/max), 330+10, origineG2Y - (maxMort*90/max));
+		g.setColor(Color.black);
+		g.drawLine(10, origineG2Y - (oldMoyenne*90/max), 330+10, origineG2Y - (oldMoyenne*90/max));
+		g.drawLine(10, origineG2Y - (minMort*90/max), 330+10, origineG2Y - (minMort*90/max));
 		
 		//System.out.println(maxVivant +" " + maxMort + " " + max + " : " + ((zoo.get(4).getScore()*100/max)));
 		
@@ -233,13 +240,8 @@ public class BassinGenetique extends JPanel implements MouseListener
 			int h = (zoo.get(a).getScore()*90/max);
 			
 			g.setColor(new Color(255, 255-(zoo.get(a).getFaim()*255/Creature.faimMax) ,255-(zoo.get(a).getFaim()*255/Creature.faimMax)));
-			g.fillRect(absc.x, absc.y, largeur, -h);
+			g.fillRect(absc.x, absc.y-h, largeur, h);
 		}
-		g.setColor(Color.red);
-		g.drawLine(10, origineG2Y - (maxMort*90/max), 330+10, origineG2Y - (maxMort*90/max));
-		g.setColor(Color.black);
-		g.drawLine(10, origineG2Y - (oldMoyenne*90/max), 330+10, origineG2Y - (oldMoyenne*90/max));
-		g.drawLine(10, origineG2Y - (minMort*90/max), 330+10, origineG2Y - (minMort*90/max));
 		
 		//dessin du temoin de fonctionnement
 		String waiting = "Waiting enough Data";
