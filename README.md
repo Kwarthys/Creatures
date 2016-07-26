@@ -15,8 +15,12 @@ The structure of the Brain is, for now, hard-coded. 3 inputs neurons, 1 middle l
 Therefore, each Brain has 3 states matrixes, one for each layout, and 2 weigths matrixes. Inputs to Hidden, and Hidden to Outputs.
 
 /!\ Do not edit the "Log-Lecture", there's for now no protection against corrupted files. /!\
+
 /!\ Do not edit the "Log-Lecture", there's for now no protection against corrupted files. /!\
+
 /!\ Do not edit the "Log-Lecture", there's for now no protection against corrupted files. /!\
+
+
 
 
 
