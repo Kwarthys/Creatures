@@ -33,7 +33,7 @@ public class ShellFenetre extends JFrame
 		sim = new BassinGenetique(rang);
 		container.add(sim, BorderLayout.CENTER);
 		
-		setSize(sim.tailleX+100,sim.tailleY+100);
+		setSize(1000,600);
 
 		this.setContentPane(container);
 		
@@ -59,6 +59,7 @@ public class ShellFenetre extends JFrame
 		{
 			//System.out.println("ça tourne");
 			repaint();
+			sim.requestFocus();
 			try{
 				Thread.sleep(5);
 			}catch(InterruptedException e){
