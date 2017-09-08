@@ -7,32 +7,33 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import creatures.omi.mainpanel.MainPanel;
+import creatures.omi.mainpanel.MainPanelCtrl;
+
 @SuppressWarnings("serial")
 public class ShellFenetre extends JFrame
 {
 	private JPanel container = new JPanel();
-	private BassinGenetique sim;
+	private MainPanel sim;
 	
 	
 	public ShellFenetre()
 	{
-		//Creature cre = new Creature();
 		setVisible(true);		
 		setTitle("Shells");
-
 		
 		setLocationRelativeTo(null);		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		int rang = 0;
+		int choice = 0;
 		
-		String[] sexe = {"from scratch", "Resume previous run", "Load intelligent ones"};
-		rang = JOptionPane.showOptionDialog(null, "Start Condition","Shells Launcher", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, sexe,sexe[2]);
-		System.out.println(rang);
+		String[] userChoice = {"from scratch", "Resume previous run", "Load intelligent ones"};
+		choice = JOptionPane.showOptionDialog(null, "Start Condition","Shells Launcher", JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, userChoice,userChoice[2]);
+		System.out.println(choice);
 		
 		container.setLayout(new BorderLayout());
-		sim = new BassinGenetique(rang);
-		container.add(sim, BorderLayout.CENTER);
+		sim = new MainPanelCtrl(choice);
+		container.add(sim.getView(), BorderLayout.CENTER);
 		
 		setSize(1000,600);
 
@@ -59,8 +60,8 @@ public class ShellFenetre extends JFrame
 		while(true)
 		{
 			//System.out.println("ça tourne");
+			sim.playRound();
 			repaint();
-			sim.requestFocus();
 			try{
 				Thread.sleep(5);
 			}catch(InterruptedException e){

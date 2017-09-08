@@ -15,7 +15,6 @@ public class Organizer<T extends Scorable> extends ArrayList<T>
 	{
 		for(int i=0; i<this.size() && !search; i++)
 		{
-			//System.out.println("ça tourne :" + i + " / " + this.size());
 			if(a.getScore()>this.get(i).getScore())
 			{
 				this.add(i, a);

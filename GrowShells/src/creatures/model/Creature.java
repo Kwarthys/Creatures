@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import creatures.omi.BassinGenetique;
+import creatures.omi.mainpanel.MainPanelServices;
 import creatures.utils.Brain;
+import creatures.utils.Formulas;
 import creatures.utils.Scorable;
 import utils.Matrix;
 
@@ -22,7 +23,7 @@ public class Creature implements Scorable
 	
 	private int faim;
 	private boolean isAlive = true; 
-	private BassinGenetique bassin;
+	private MainPanelServices terrainServices;
 	private int score = 0;
 	
 	private ArrayList<int[]> coordsQueue = new ArrayList<int[]>(); 
@@ -40,21 +41,21 @@ public class Creature implements Scorable
 	
 	public static int faimMax = 3500;
 	
-	public Creature(double leX, double leY,BassinGenetique lebassin)
+	public Creature(double leX, double leY, MainPanelServices terrainServices)
 	{
-		this(lebassin);
+		this(terrainServices);
 		x = leX; y = leY;
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};
 		coordsQueue.set(0, tmp);
 	}
 		
-	public Creature(BassinGenetique lebassin)
+	public Creature(MainPanelServices terrainServices)
 	{ 
-		bassin = lebassin;
+		this.terrainServices = terrainServices;
 		brain = new Brain(3,3,2,5);
 		angle = 360*Math.random(); faim = 1000;setScore(0);
-		x = (bassin.tailleX-200)*Math.random()+100;
-		y = (bassin.tailleY-200)*Math.random()+100;
+		x = (terrainServices.getXSize()-200)*Math.random()+100;
+		y = (terrainServices.getYSize()-200)*Math.random()+100;
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};
 		coordsQueue.add(tmp);
 	}
@@ -77,10 +78,10 @@ public class Creature implements Scorable
 		
 		target = nourriture.get(indexRecord);
 				
-		if(oeilD > bassin.tailleX){oeilD=bassin.tailleX;}
-		if(oeilG > bassin.tailleX){oeilG=bassin.tailleX;}
+		if(oeilD > terrainServices.getXSize()){oeilD=terrainServices.getXSize();}
+		if(oeilG > terrainServices.getXSize()){oeilG=terrainServices.getXSize();}
 		
-		double[][] in = {{((float)faim)/faimMax, (-oeilD/bassin.tailleX)+1, (-oeilG/bassin.tailleX)+1}};
+		double[][] in = {{((float)faim)/faimMax, (-oeilD/terrainServices.getXSize())+1, (-oeilG/terrainServices.getXSize())+1}};
 		//System.out.println();
 		inputs = new Matrix(in);
 		
@@ -92,7 +93,7 @@ public class Creature implements Scorable
 			//System.out.println("Avant manger : " + faim);
 			manger();
 			//System.out.println("Après manger : " + faim);
-			bassin.eaten(indexRecord);
+			terrainServices.eat(indexRecord);
 		}
 		if(outputs.get(0,0) > 0)
 		{
@@ -134,7 +135,7 @@ public class Creature implements Scorable
 	
 	public Creature fusion(Creature mere)
 	{
-		Creature child = new Creature(this.bassin);
+		Creature child = new Creature(this.terrainServices);
 		child.brain = Brain.fusion(this.brain, mere.brain);
 		return child;
 	}
@@ -154,7 +155,7 @@ public class Creature implements Scorable
 		else
 			addScore(1);
 		
-		if(x < -100 || x > bassin.tailleX+100 || y < -100 || y > bassin.tailleY+100) //pénalité si trop hors du cadre
+		if(x < -100 || x > terrainServices.getXSize()+100 || y < -100 || y > terrainServices.getYSize()+100) //pénalité si trop hors du cadre
 			delScore(1);
 	}
 	
@@ -210,9 +211,9 @@ public class Creature implements Scorable
 	public double norme(int[] leX, int oeil) //oeil = -1 pour Gauche et +1 pour Droite
 	{		
 		if(oeil == -1)
-			return BassinGenetique.getDistance(leX[0], leX[1], xOeilG, yOeilG);
+			return Formulas.getDistance(leX[0], leX[1], xOeilG, yOeilG);
 		else
-			return BassinGenetique.getDistance(leX[0],leX[1], xOeilD,  yOeilD);
+			return Formulas.getDistance(leX[0],leX[1], xOeilD,  yOeilD);
 	}
 	
 	public void showBrain()
@@ -231,7 +232,11 @@ public class Creature implements Scorable
 	}
 
 	public double getAngle(){return angle;}
-	public ArrayList<int[]> getQueue(){return coordsQueue;}
+	public ArrayList<int[]> getQueue()
+	{
+		ArrayList<int[]> copy = new ArrayList<>(coordsQueue);
+		return copy;
+	}
 	public double getX(){return x;}
 	public double getY(){return y;}
 	public int[] getTarget(){return target;}
@@ -282,7 +287,7 @@ public class Creature implements Scorable
 		}
 	}
 	
-	public static Creature[] readFile(BassinGenetique leBassin, String file)
+	public static Creature[] readFile(MainPanelServices terrainServices, String file)
 	{
 		Creature[] zoo = null;
 		File f = new File(file);
@@ -296,7 +301,7 @@ public class Creature implements Scorable
 			zoo = new Creature[(int) c];
     		for(int o =0; o<taille;o++)
     		{
-    			zoo[o] = new Creature(leBassin);
+    			zoo[o] = new Creature(terrainServices);
     		}
 	    	try
 	    	{
