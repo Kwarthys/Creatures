@@ -22,7 +22,7 @@ public class BassinGenetique extends JPanel implements MouseMotionListener, Mous
 {
 
 	private ArrayList<Creature> zoo = new ArrayList<Creature>();
-	private Organizer registre = new Organizer();
+	private Organizer<Creature> registre = new Organizer<>();
 	private ArrayList<int[]> frigo = new ArrayList<int[]>(); 
 
 	public int tailleX;

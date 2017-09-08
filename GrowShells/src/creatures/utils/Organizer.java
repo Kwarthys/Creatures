@@ -1,10 +1,8 @@
 package creatures.utils;
 import java.util.ArrayList;
 
-import creatures.model.Creature;
-
 @SuppressWarnings("serial")
-public class Organizer extends ArrayList<Creature>
+public class Organizer<T extends Scorable> extends ArrayList<T>
 {
 	private boolean search = false;
 	
@@ -13,7 +11,7 @@ public class Organizer extends ArrayList<Creature>
 		super();
 		this.clear();
 	}
-	public boolean add(Creature a)
+	public boolean add(T a)
 	{
 		for(int i=0; i<this.size() && !search; i++)
 		{

@@ -9,9 +9,10 @@ import java.util.Scanner;
 
 import creatures.omi.BassinGenetique;
 import creatures.utils.Brain;
+import creatures.utils.Scorable;
 import utils.Matrix;
 
-public class Creature
+public class Creature implements Scorable
 {
 	private double x,y,angle, oeilG, oeilD;
 	
@@ -241,6 +242,7 @@ public class Creature
 	public void setX(double leX){x = leX;}
 	public void setY(double leY){y = leY;}
 
+	@Override
 	public int getScore() {
 		return score;
 	}
