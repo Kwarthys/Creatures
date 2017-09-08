@@ -52,7 +52,7 @@ public class Creature implements Scorable
 	public Creature(MainPanelServices terrainServices)
 	{ 
 		this.terrainServices = terrainServices;
-		brain = new Brain(3,3,2,5);
+		brain = new Brain(3,5,5,3);
 		angle = 360*Math.random(); faim = 1000;setScore(0);
 		x = (terrainServices.getXSize()-200)*Math.random()+100;
 		y = (terrainServices.getYSize()-200)*Math.random()+100;

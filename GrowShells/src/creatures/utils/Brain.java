@@ -35,31 +35,23 @@ public class Brain
 		show();
 	}
 	
-	public Brain(int inputs, int outputs, int nHidden, int hiddenSize)
+	public Brain(int... levels)
 	{
-		//nbHiddens = nHidden;
-		if(nHidden!=0)
+		if(levels.length < 2)
 		{
-			weigths.add(Matrix.random(inputs, hiddenSize));
-			states.add(new Matrix(1,inputs));
-			
-			if(nHidden >= 1){states.add(new Matrix(1,hiddenSize));}
-			
-			for(int i = 0; i<nHidden-1;i++)
-			{
-				weigths.add(Matrix.random(hiddenSize,hiddenSize));
-				states.add(new Matrix(1,hiddenSize));
-			}
-			weigths.add(Matrix.random(hiddenSize, outputs));
-			states.add(new Matrix(1,outputs));
-		}
-		else
-		{
-			weigths.add(Matrix.random(inputs, outputs));
-			states.add(new Matrix(1,inputs));
-			states.add(new Matrix(1,outputs));
+			System.err.println("Brain too litle");
+			return;
 		}
 		
+		for(int i = 0; i < levels.length; i++)
+		{
+			states.add(new Matrix(1,levels[i]));
+			
+			if(i!=levels.length-1)
+			{
+				weigths.add(Matrix.random(levels[i], levels[i+1]));
+			}
+		}	
 	}
 	
 	public Matrix compute(Matrix inputs)

@@ -53,9 +53,7 @@ public class MainPanelCtrl implements MainPanel{
 	};
 	
 	public MainPanelCtrl(int rang)
-	{
-		super();
-
+	{		
 		model = new MainPanelModel();
 		view = new MainPanelView(new StringCallback() {			
 			@Override
@@ -64,38 +62,12 @@ public class MainPanelCtrl implements MainPanel{
 			}
 		}, services);
 
+		registerListener();
+		
 		model.tailleX = 2000;
 		model.tailleY = 2000;
 		
-		view.setSize(model.tailleX+100, model.tailleY+100); 
-		
-		view.setBindings();
-		
-		view.addMouseListener(new MouseListener() {			
-			@Override
-			public void mouseReleased(MouseEvent e) {}			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				model.pressedX = e.getX(); model.pressedY = e.getY();				
-			}			
-			@Override
-			public void mouseExited(MouseEvent e) {}			
-			@Override
-			public void mouseEntered(MouseEvent e) {}			
-			@Override
-			public void mouseClicked(MouseEvent e) {}
-		});
-		
-		view.addMouseMotionListener(new MouseMotionListener() {			
-			@Override
-			public void mouseMoved(MouseEvent e) {}
-			
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				mooveScreen(model.pressedX-e.getX(), model.pressedY-e.getY());
-				model.pressedX = e.getX(); model.pressedY = e.getY();				
-			}
-		});
+		view.setSize(model.tailleX+100, model.tailleY+100);
 
 		model.population = model.tailleX * model.tailleY / 20000;
 		model.popstack = model.population*4;
@@ -135,6 +107,37 @@ public class MainPanelCtrl implements MainPanel{
 		
 		model.reproduction();
 		
+	}
+	
+	private void registerListener()
+	{	
+		view.setBindings();
+		
+		view.addMouseListener(new MouseListener() {			
+			@Override
+			public void mouseReleased(MouseEvent e) {}			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				model.pressedX = e.getX(); model.pressedY = e.getY();				
+			}			
+			@Override
+			public void mouseExited(MouseEvent e) {}			
+			@Override
+			public void mouseEntered(MouseEvent e) {}			
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+		});
+		
+		view.addMouseMotionListener(new MouseMotionListener() {			
+			@Override
+			public void mouseMoved(MouseEvent e) {}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				mooveScreen(model.pressedX-e.getX(), model.pressedY-e.getY());
+				model.pressedX = e.getX(); model.pressedY = e.getY();				
+			}
+		});
 	}
 	
 	@Override
