@@ -96,7 +96,7 @@ public class Matrix
 	            	}
 	            	
 	            	A.data[i][j] += rand;
-	            	System.out.println("Mutation of " + rand + " with Div = " + diversite);
+	            	//System.out.println("Mutation of " + rand + " with Div = " + diversite);
             	}
             }
          

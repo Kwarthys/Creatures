@@ -168,7 +168,8 @@ public class Creature implements Scorable
 	
 	private void forward()
 	{
-		faim++;addScore(1);
+		faim++;
+		addScore(1);
 		//System.out.println("gogogo");
 		x -= 2*Math.sin(Math.toRadians(angle));
 		y -= 2*Math.cos(Math.toRadians(angle));
@@ -185,7 +186,8 @@ public class Creature implements Scorable
 	
 	private void turnLeft()
 	{
-		faim++;addScore(1);
+		faim++;
+		addScore(1);
 		angle += 6; controlAngle();
 		//System.out.println("turnleft");
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};
@@ -195,7 +197,8 @@ public class Creature implements Scorable
 	
 	private void turnRight()
 	{
-		faim++;addScore(1);
+		faim++;
+		addScore(1);
 		angle -= 6; controlAngle();
 		//System.out.println("turnright");
 		int[] tmp = {(int)( x-10*Math.sin(-Math.toRadians(angle))),(int)( y+10*Math.cos(-Math.toRadians(angle)))};

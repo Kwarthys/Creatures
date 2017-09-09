@@ -48,6 +48,12 @@ public class MainPanelModel {
 		manageFrigo();
 	}
 	
+	protected void live()
+	{
+		zoo.forEach((Creature c) -> c.live(frigo));
+		cleanDeaths();
+	}
+	
 	protected void cleanDeaths()
 	{
 		

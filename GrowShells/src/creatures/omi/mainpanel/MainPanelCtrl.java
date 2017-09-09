@@ -143,8 +143,7 @@ public class MainPanelCtrl implements MainPanel{
 	@Override
 	public void playRound()
 	{
-		model.zoo.forEach((Creature c) -> c.live(model.frigo));
-		model.cleanDeaths();
+		model.live();
 	}
 	
 	private void mooveScreen(int dx, int dy)
