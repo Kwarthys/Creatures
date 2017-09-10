@@ -28,6 +28,10 @@ public class MainPanelView extends JPanel
 	
 	public void paintComponent(Graphics g)
 	{
+		/* reblanchissement du fond */
+		g.setColor(Color.white);
+		g.fillRect(0,0,this.getWidth(), this.getHeight());
+		
 		//System.out.println("Size " + zoo.size());
 		/*if(zoo.size()==0)
 		{

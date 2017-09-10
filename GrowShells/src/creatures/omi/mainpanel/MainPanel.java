@@ -7,4 +7,6 @@ public interface MainPanel {
 	public void save();
 	
 	public void playRound();
+	public void openBrainView();
+	public void repaint();
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import creatures.model.Creature;
+import creatures.omi.mainpanel.brainpanel.BrainWindow;
 import utils.StringCallback;
 
 public class MainPanelCtrl implements MainPanel{
@@ -61,7 +62,7 @@ public class MainPanelCtrl implements MainPanel{
 				mooveScreen(s);
 			}
 		}, services);
-
+				
 		registerListener();
 		
 		model.tailleX = 2000;
@@ -142,8 +143,14 @@ public class MainPanelCtrl implements MainPanel{
 	
 	@Override
 	public void playRound()
-	{
+	{		
 		model.live();
+		
+		if(model.brainWindowOpened != null)
+		{
+			model.brainWindowOpened.setBrainToDraw(model.zoo.get(0).getBrain());
+			System.out.println("Changed");
+		}
 	}
 	
 	private void mooveScreen(int dx, int dy)
@@ -190,5 +197,18 @@ public class MainPanelCtrl implements MainPanel{
 	@Override
 	public JPanel getView() {
 		return view;
+	}
+
+	@Override
+	public void repaint() {
+		view.repaint();
+		if(model.brainWindowOpened != null)model.brainWindowOpened.repaintContent();
+	}
+
+	@Override
+	public void openBrainView() {
+		if(model.brainWindowOpened != null)return;
+		model.brainWindowOpened = new BrainWindow();
+		model.brainWindowOpened.setBrainToDraw(model.zoo.get(0).getBrain());
 	}
 }

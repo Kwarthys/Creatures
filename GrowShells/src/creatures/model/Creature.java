@@ -8,7 +8,6 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import creatures.omi.mainpanel.MainPanelServices;
-import creatures.utils.Brain;
 import creatures.utils.Formulas;
 import creatures.utils.Scorable;
 import utils.Matrix;
@@ -240,6 +239,9 @@ public class Creature implements Scorable
 		ArrayList<int[]> copy = new ArrayList<>(coordsQueue);
 		return copy;
 	}
+	
+	public Brain getBrain(){return brain;}
+	
 	public double getX(){return x;}
 	public double getY(){return y;}
 	public int[] getTarget(){return target;}

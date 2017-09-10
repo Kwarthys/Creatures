@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
@@ -17,7 +18,7 @@ import creatures.omi.mainpanel.MainPanel;
 import creatures.omi.mainpanel.MainPanelCtrl;
 
 @SuppressWarnings("serial")
-public class ShellFenetre extends JFrame
+public class PoolFenetre extends JFrame
 {
 	private JPanel container = new JPanel();
 	private MainPanel sim;
@@ -25,7 +26,7 @@ public class ShellFenetre extends JFrame
 	private int speedUp = 0;
 	
 	
-	public ShellFenetre()
+	public PoolFenetre()
 	{
 		setVisible(true);		
 		setTitle("Shells");
@@ -44,7 +45,18 @@ public class ShellFenetre extends JFrame
 		container.add(sim.getView(), BorderLayout.CENTER);
 		
 		JMenuBar menuBar = new JMenuBar();
-		JMenu menu = new JMenu("Simulation");
+		JMenu simMenu = new JMenu("Simulation");
+		
+		JMenu windowMenu = new JMenu("Window");
+		
+		JMenuItem brainWDButton = new JMenuItem("Open Brain View");		
+		brainWDButton.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("AHA");
+				sim.openBrainView();
+			}
+		});
 		
 		JRadioButtonMenuItem speedUpMenuItem1 = new JRadioButtonMenuItem("SpeedUp x1");
 		speedUpMenuItem1.setSelected(true);
@@ -87,12 +99,16 @@ public class ShellFenetre extends JFrame
 		group.add(speedUpMenuItem100);
 		group.add(speedUpMenuItem1000);
 		group.add(speedUpMenuItem10000);
+
+		menuBar.add(simMenu);
+		simMenu.add(speedUpMenuItem1);
+		simMenu.add(speedUpMenuItem100);
+		simMenu.add(speedUpMenuItem1000);
+		simMenu.add(speedUpMenuItem10000);
 		
-		menuBar.add(menu);
-		menu.add(speedUpMenuItem1);
-		menu.add(speedUpMenuItem100);
-		menu.add(speedUpMenuItem1000);
-		menu.add(speedUpMenuItem10000);
+		menuBar.add(windowMenu);
+		windowMenu.add(brainWDButton);
+		
 		this.setJMenuBar(menuBar);
 		
 		setSize(1000,600);
@@ -124,7 +140,7 @@ public class ShellFenetre extends JFrame
 			
 			if(speedUp == 0)
 			{
-				repaint();
+				sim.repaint();
 			
 				try{
 					Thread.sleep(5);
@@ -136,7 +152,7 @@ public class ShellFenetre extends JFrame
 			{
 				if(index++ > speedUp)
 				{
-					repaint();
+					sim.repaint();
 					index = 0;
 				}
 			}

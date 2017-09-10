@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import creatures.model.Creature;
+import creatures.omi.mainpanel.brainpanel.BrainWindow;
 import creatures.utils.Formulas;
 import creatures.utils.Organizer;
 import utils.Matrix;
@@ -32,6 +33,7 @@ public class MainPanelModel {
 	protected ArrayList<Integer> evols = new ArrayList<Integer>();
 	
 	protected int step;
+	protected BrainWindow brainWindowOpened;
 	
 	protected void manageFrigo()
 	{
@@ -56,7 +58,6 @@ public class MainPanelModel {
 	
 	protected void cleanDeaths()
 	{
-		
 		Iterator<Creature> i = zoo.iterator();
 		while(i.hasNext())
 		{

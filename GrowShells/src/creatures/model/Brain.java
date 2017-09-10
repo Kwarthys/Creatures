@@ -1,4 +1,4 @@
-package creatures.utils;
+package creatures.model;
 import java.util.ArrayList;
 
 import utils.Matrix;
@@ -8,8 +8,6 @@ public class Brain
 	
 	private ArrayList<Matrix> weigths = new ArrayList<Matrix>(); 	//passage
 	private ArrayList<Matrix> states = new ArrayList<Matrix>(); 	//Etats
-	
-	//private int nbHiddens;
 	
 	public Brain(Brain copy)
 	{
@@ -52,6 +50,16 @@ public class Brain
 				weigths.add(Matrix.random(levels[i], levels[i+1]));
 			}
 		}	
+	}
+	
+	public ArrayList<Matrix> getStates()
+	{
+		return new ArrayList<>(states);
+	}
+	
+	public ArrayList<Matrix> getWeights()
+	{
+		return new ArrayList<>(weigths);
 	}
 	
 	public Matrix compute(Matrix inputs)
