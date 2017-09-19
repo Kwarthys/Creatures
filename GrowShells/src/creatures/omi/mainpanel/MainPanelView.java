@@ -138,52 +138,47 @@ public class MainPanelView extends JPanel
 		
 		for(int i = 0; i < services.getZoo().size(); i++)
 		{
-			Creature truc = services.getZoo().get(i);
+			Creature currentCreature = services.getZoo().get(i);
 			
 			if(i==0)
 			{
 				//truc.drawBrain(g);
 			}
-			if(truc.isAlive())
+			if(currentCreature.isAlive())
 			{
 				//truc.show();
 				
-				//Color podium = Color.ORANGE;
+				Color podium = Color.ORANGE;
 				
-				int xOeilD = (int)truc.getX() + (int)(30*(-Math.sin(-Math.toRadians(truc.getAngle()) + Math.PI + Math.PI/4)));
-				int yOeilD = (int)truc.getY() + (int)(30*(Math.cos(-Math.toRadians(truc.getAngle()) + Math.PI + Math.PI/4)));
-				int xOeilG = (int)truc.getX() + (int)(30*(-Math.sin(-Math.toRadians(truc.getAngle()) + Math.PI - Math.PI/4)));
-				int yOeilG = (int)truc.getY() + (int)(30*(Math.cos(-Math.toRadians(truc.getAngle()) + Math.PI - Math.PI/4)));
+				int xOeilD = (int)currentCreature.getX() + (int)(30*(-Math.sin(-Math.toRadians(currentCreature.getAngle()) + Math.PI + Math.PI/4)));
+				int yOeilD = (int)currentCreature.getY() + (int)(30*(Math.cos(-Math.toRadians(currentCreature.getAngle()) + Math.PI + Math.PI/4)));
+				int xOeilG = (int)currentCreature.getX() + (int)(30*(-Math.sin(-Math.toRadians(currentCreature.getAngle()) + Math.PI - Math.PI/4)));
+				int yOeilG = (int)currentCreature.getY() + (int)(30*(Math.cos(-Math.toRadians(currentCreature.getAngle()) + Math.PI - Math.PI/4)));
 
-				int xPatteG = (int)truc.getX() + (int)(8*(-Math.sin(-Math.toRadians(truc.getAngle()) + Math.PI + Math.PI/2)));
-				int yPatteG = (int)truc.getY() + (int)(8*(Math.cos(-Math.toRadians(truc.getAngle()) + Math.PI + Math.PI/2)));
+				int xPatteG = (int)currentCreature.getX() + (int)(8*(-Math.sin(-Math.toRadians(currentCreature.getAngle()) + Math.PI + Math.PI/2)));
+				int yPatteG = (int)currentCreature.getY() + (int)(8*(Math.cos(-Math.toRadians(currentCreature.getAngle()) + Math.PI + Math.PI/2)));
 
-				int xPatteD = (int)truc.getX() + (int)(8*(-Math.sin(-Math.toRadians(truc.getAngle()) + Math.PI - Math.PI/2)));
-				int yPatteD = (int)truc.getY() + (int)(8*(Math.cos(-Math.toRadians(truc.getAngle()) + Math.PI - Math.PI/2)));
+				int xPatteD = (int)currentCreature.getX() + (int)(8*(-Math.sin(-Math.toRadians(currentCreature.getAngle()) + Math.PI - Math.PI/2)));
+				int yPatteD = (int)currentCreature.getY() + (int)(8*(Math.cos(-Math.toRadians(currentCreature.getAngle()) + Math.PI - Math.PI/2)));
 
-				g.setColor(truc.patteD);
+				g.setColor(currentCreature.patteD);
 				g.fillOval(xPatteD-10-services.getXScreen() , yPatteD-10-services.getYScreen(), 20, 20);
-				g.setColor(truc.patteG);
+				g.setColor(currentCreature.patteG);
 				g.fillOval(xPatteG-10-services.getXScreen() , yPatteG-10-services.getYScreen(), 20, 20);
 				
 				
-				g.setColor(truc.queue);
+				g.setColor(currentCreature.queue);
 				//g.drawLine((int)truc.getX(), (int)truc.getY(), (int)truc.getX() + (int)(100*Math.sin(Math.toRadians(truc.getAngle()))), (int)truc.getY() + (int)(100*Math.cos(Math.toRadians(truc.getAngle()))));
 				
-				truc.getQueue().forEach((int[] coords) -> {
+				currentCreature.getQueue().forEach((int[] coords) -> {
 					g.drawRect(coords[0]-services.getXScreen(), coords[1]-services.getYScreen(), 1,1);
 				});
-				
-//				for(int[] coords : queue)
-//				{
-//					g.drawRect(coords[0]-services.getXScreen(), coords[1]-services.getYScreen(), 1,1);
-//				}
 
 				g.setColor(Color.BLACK);
-				//if(i == indexMaxVivant)
-				//	g.setColor(podium);
-				g.drawLine((int)truc.getX()-services.getXScreen(), (int)truc.getY()-services.getYScreen(), xOeilD-services.getXScreen() , yOeilD-services.getYScreen());
-				g.drawLine((int)truc.getX()-services.getXScreen(), (int)truc.getY()-services.getYScreen(), xOeilG-services.getXScreen() , yOeilG-services.getYScreen());
+				if(i == 0)
+					g.setColor(podium);
+				g.drawLine((int)currentCreature.getX()-services.getXScreen(), (int)currentCreature.getY()-services.getYScreen(), xOeilD-services.getXScreen() , yOeilD-services.getYScreen());
+				g.drawLine((int)currentCreature.getX()-services.getXScreen(), (int)currentCreature.getY()-services.getYScreen(), xOeilG-services.getXScreen() , yOeilG-services.getYScreen());
 
 				//g.drawOval((int)(xOeilD-(truc.getOeilD())), (int)(yOeilD-(truc.getOeilD())),(int) truc.getOeilD()*2,(int) truc.getOeilD()*2);
 				//g.drawOval((int)(xOeilG-(truc.getOeilG())), (int)(yOeilG-(truc.getOeilG())),(int) truc.getOeilG()*2,(int) truc.getOeilG()*2);
@@ -193,17 +188,17 @@ public class MainPanelView extends JPanel
 				
 				
 				g.setColor(Color.black);
-				//if(i == indexMaxVivant)
-				//	g.setColor(podium);
+				if(i == 0)
+					g.setColor(podium);
 				g.fillOval(xOeilD-5-services.getXScreen(), yOeilD-5-services.getYScreen(), 10, 10);
 				g.fillOval(xOeilG-5-services.getXScreen(), yOeilG-5-services.getYScreen(), 10, 10);
 				
-				g.setColor(new Color(255, 255-(truc.getFaim()*255/Creature.faimMax) ,255-(truc.getFaim()*255/Creature.faimMax)));
-				g.fillOval((int)truc.getX()-10-services.getXScreen(), (int)truc.getY()-10-services.getYScreen(), 20, 20);
+				g.setColor(new Color(255, 255-(currentCreature.getFaim()*255/Creature.faimMax) ,255-(currentCreature.getFaim()*255/Creature.faimMax)));
+				g.fillOval((int)currentCreature.getX()-10-services.getXScreen(), (int)currentCreature.getY()-10-services.getYScreen(), 20, 20);
 				g.setColor(Color.BLACK);
-				//if(i == indexMaxVivant)
-				//	g.setColor(podium);				
-				g.drawOval((int)truc.getX()-10-services.getXScreen(), (int)truc.getY()-10-services.getYScreen(), 20, 20);				
+				if(i == 0)
+					g.setColor(podium);				
+				g.drawOval((int)currentCreature.getX()-10-services.getXScreen(), (int)currentCreature.getY()-10-services.getYScreen(), 20, 20);				
 			}			
 		}		
 	}
