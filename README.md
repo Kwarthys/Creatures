@@ -11,8 +11,10 @@ and know when they or starving or near overfeeding.
 A brain is actually a set of matrixes, each value representing a weigth between two neurons.
 (Clicking a creatues will (hopefully) display the weigths and the current state of its Brain.)
 
-The structure of the Brain is, for now, hard-coded. 3 inputs neurons, 1 middle layout (Hidden) of 3 neurons and 3 outputs neurons.
-Therefore, each Brain has 3 states matrixes, one for each layout, and 2 weigths matrixes. Inputs to Hidden, and Hidden to Outputs.
+The structure of the Brain is determined in the code. My Brain class can create and compute any straight-forward neural networks, with a flexible constructor. (e.g Brain(2,5,5,5,3) will create a Brain with 2 inputs, three hiddens layer of 5 neurons, and 3 outputs neurons.)
+Each Brain has N states matrixes, one by layer, and N-1 weigths matrixes.
+
+***
 
 /!\ Do not edit the "Log-Lecture", there's for now no protection against corrupted files. /!\
 
@@ -21,7 +23,7 @@ Therefore, each Brain has 3 states matrixes, one for each layout, and 2 weigths 
 /!\ Do not edit the "Log-Lecture", there's for now no protection against corrupted files. /!\
 
 
-
+***
 
 
 MIT License
