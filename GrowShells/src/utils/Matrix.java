@@ -137,7 +137,20 @@ public class Matrix
     }
 	
 	
-    public void masque(double absMasque)
+    public void masque(double masque)
+    {
+    	for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+            {
+            	if(this.data[i][j] < masque)
+            	{
+            		this.data[i][j] = 0;
+            	}
+            }
+    }
+	
+	
+    public void masqueAbs(double absMasque)
     {
     	for (int i = 0; i < M; i++)
             for (int j = 0; j < N; j++)
@@ -146,6 +159,22 @@ public class Matrix
             	{
             		this.data[i][j] = 0;
             	}
+            }
+    }
+	
+	/**
+	 * Makes the matrix values being either 0 or 1 if their absolute values are higher than the masque double
+	 * @param masque Threshold
+	 */
+    public void binarize(double masque)
+    {
+    	for (int i = 0; i < M; i++)
+            for (int j = 0; j < N; j++)
+            {
+            	if(this.data[i][j] < masque)
+            		this.data[i][j] = 0;
+            	else
+            		this.data[i][j] = 1;
             }
     }
     

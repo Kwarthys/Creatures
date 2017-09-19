@@ -149,7 +149,6 @@ public class MainPanelCtrl implements MainPanel{
 		if(model.brainWindowOpened != null)
 		{
 			model.brainWindowOpened.setBrainToDraw(model.zoo.get(0).getBrain());
-			System.out.println("Changed");
 		}
 	}
 	

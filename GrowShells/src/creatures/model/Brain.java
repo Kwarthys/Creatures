@@ -69,7 +69,7 @@ public class Brain
 		{
 			states.get(i).set(states.get(i-1).times(weigths.get(i-1)));
 			states.get(i).timesTanH();
-			states.get(i).masque(0.01);  //0.01 Treshold for neurons			
+			states.get(i).binarize(0.5);	
 		}
 			
 		return states.get(states.size()-1);
