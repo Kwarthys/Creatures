@@ -163,7 +163,7 @@ public class Matrix
     }
 	
 	/**
-	 * Makes the matrix values being either 0 or 1 if their absolute values are higher than the masque double
+	 * Makes the matrix values being either 0 or 1 if their values are higher than the masque double
 	 * @param masque Threshold
 	 */
     public void binarize(double masque)
